@@ -24,6 +24,16 @@ ruleTester.run("ban-falsy-enum-values", rule, {
 
   invalid: [
     {
+      code: "enum Foo { foo }",
+      errors: [
+        {
+          messageId: "enumValueMustBeInitialized",
+          column: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
       code: "enum Foo { val = 0 }",
       errors: [
         {

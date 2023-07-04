@@ -15,6 +15,8 @@ export default createRule({
     messages: {
       noFalsyEnumValues:
         `Don't use falsy enum values like 0, "", false, null, undefined, NaN, etc.`,
+      enumValueMustBeInitialized:
+        `Enum value must be initialized, because otherwise it defaults to falsy value 0.`,
     },
     schema: [{}],
   },
@@ -24,17 +26,26 @@ export default createRule({
       TSEnumDeclaration(node) {
 
         node.members.forEach(member => {
-          // @ts-ignore
-          const value = member.initializer.value;
 
-          console.log({ value })
+          if ("initializer" in member === false) {
+
+            context.report({
+              node,
+              messageId: "enumValueMustBeInitialized",
+            });
+            return;
+          }
+
+          // @ts-ignore
+          const value = member?.initializer?.value;
+
           if (value === 0 ||
             value === "" ||
             value === false ||
             value === null ||
             value === undefined ||
             (typeof value === "number" && isNaN(value))) {
-            console.log("reporting", value)
+
             context.report({
               node,
               messageId: "noFalsyEnumValues",

@@ -1,6 +1,6 @@
 {
   "name": "@waltari/eslint-plugin-ban-falsy-enum-values",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ESlint rule to ban falsy enum values",
   "main": "dist/index.js",
   "files": [
